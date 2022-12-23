@@ -1,0 +1,183 @@
+{
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 2880,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 559,
+      "max": [
+        100.0,
+        100.0,
+        100.0
+      ],
+      "min": [
+        -100.0,
+        -100.0,
+        -100.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 559,
+      "type": "VEC2"
+    }
+  ],
+  "asset": {
+    "generator": "Adobe Substance 3D Painter 8.1.2",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 11520,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 6708,
+      "byteOffset": 11520,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 6708,
+      "byteOffset": 18228,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8944,
+      "byteOffset": 24936,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4472,
+      "byteOffset": 33880,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 38352,
+      "uri": "planet_1.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "default_baseColor.png"
+    },
+    {
+      "uri": "default_occlusionRoughnessMetallic.png"
+    },
+    {
+      "uri": "default_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "OPAQUE",
+      "name": "default",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Sphere",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 2,
+            "POSITION": 1,
+            "TANGENT": 3,
+            "TEXCOORD_0": 4
+          },
+          "indices": 0,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "planet_1.obj"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "Sphere"
+    },
+    {
+      "mesh": 0,
+      "name": "Sphere"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9985,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
