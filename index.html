@@ -27,79 +27,70 @@
     </script>
 
     <script type="module">
+        import * as THREE from 'three';
 
-import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        const container = document.getElementById('container');
 
-let mixer;
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        container.appendChild(renderer.domElement);
 
-const clock = new THREE.Clock();
-const container = document.getElementById( 'container' );
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
 
-const renderer = new THREE.WebGLRenderer( { antialias: true } );
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.outputEncoding = THREE.sRGBEncoding;
-container.appendChild( renderer.domElement );
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
+        camera.position.set(0, 0, 15);
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0x000000 );
+        const light = new THREE.PointLight(0xffffff);
+        light.position.set(-100, 100, 30);
+        camera.add(light);
+        scene.add(camera)
 
-const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100 );
-camera.position.set( 0, 0, 15 );
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 0, 0);
+        controls.autoRotate = true;
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.01;
+        controls.update();
 
-const light = new THREE.PointLight( 0xffffff);
-light.position.set( -100, 100, 30 );
-camera.add(light);
-window.light = light;
-scene.add(camera)
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('jsm/libs/draco/gltf/');
 
-const controls = new OrbitControls( camera, renderer.domElement );
-controls.target.set( 0, 0, 0 );
-controls.autoRotate = true;
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.enableDamping = true;
-controls.dampingFactor = 0.01;
-controls.update();
-window.controls = controls;
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+        loader.load('model/planet_1.glb', function ( gltf ) {
+            const model = gltf.scene;
+            model.position.set( 0, 0, 0 );
+            model.scale.set( 0.04, 0.04, 0.04 );
+            scene.add( model );
 
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath( 'jsm/libs/draco/gltf/' );
+            animate();
+        }, undefined, function (e) {
+            console.error(e);
+        });
 
-const loader = new GLTFLoader();
-loader.setDRACOLoader( dracoLoader );
-loader.load( 'model/planet_1.glb', function ( gltf ) {
-    const model = gltf.scene;
-    model.position.set( 0, 0, 0 );
-    model.scale.set( 0.04, 0.04, 0.04 );
-    scene.add( model );
+        window.onresize = function () {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
 
-    animate();
-}, undefined, function ( e ) {
-    console.error( e );
-} );
-
-
-window.onresize = function () {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
-};
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
 
 
-function animate() {
-    requestAnimationFrame( animate );
-    const delta = clock.getDelta();
-    controls.update();
-    renderer.render( scene, camera );
-}
-
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,6 +105,7 @@ function animate() {
             font-size: 24px;
             line-height: 24px;
             font-weight: 700;
+            overflow: hidden;
         }
 
         h1 {
@@ -133,6 +125,8 @@ function animate() {
             left: 100px;
             top: 20px;
             z-index: 2;
+            animation: fadeInText 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	        animation-delay: 0.3s;
         }
 
         #container {
@@ -162,6 +156,8 @@ function animate() {
         .contentWrapper h1 {
             margin: 0;
             padding-bottom: 50px;
+            animation: fadeInText 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: .5s;
         }
 
         .links {
@@ -175,47 +171,79 @@ function animate() {
             border-radius: 8px;
             display: inline-block;
             transition: .5s;
+            animation: fadeInButton 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: 1s;
         }
 
         .links a:hover {
-            transform: scale(1.2);
+            transform: scale(1.05) !important;
         }
 
-        .primary {
+        .links a.primary {
             color: #000;
             background-color: #fff;
+            animation-delay: .5s;
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
+            0% { opacity: 0; filter: blur(8px); }
+            50% { filter: blur(0px); }
             100% { opacity: 1; }
         }
 
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                filter: blur(8px);
+                transform: translate3d(0, -30%, 0);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes fadeInButton {
+            0% {
+                opacity: 0;
+                filter: blur(8px);
+                transform: scale(0.85);
+            }
+            100% {
+                transform: scale(1);
+                filter: blur(0);
+                opacity: 1;
+            }
+        }
 
         @media (max-width: 780px) {
+            html, body {
+                font-size: 18px;
+            }
+
             #container {
                 left: 0;
                 top: 50vh;
             }
 
             .logo {
-                width: 100vw;
-                left: 0;
-                text-align: center;
+                left: 24px;
             }
 
             .contentWrapper {
                 width: 100vw;
-                padding: 100px 32px 100px;
+                padding: 96px 24px 200px;
             }
 
             .contentWrapper h1 {
-                text-align: center;
-                font-size: 48px;
+                padding-bottom: 30px;
+                font-size: 44px;
+                line-height: 52px;
             }
 
-            .links {
-                flex-direction: column;
+            .links a {
+                padding: 12px 24px;
             }
         }
     </style>
@@ -227,8 +255,8 @@ function animate() {
     <div class="contentWrapper">
         <h1>Are you looking for the future of blockchain education?</h1>
         <div class="links">
-            <a class="primary" href="#">Partnership</a>
-            <a href="#">Whitelist</a>
+            <a class="primary" href="https://forms.gle/eYmxSRrzSDTYyPSb9">Partnership</a>
+            <a href="https://forms.gle/fUQ23tJTckBREciK8">Waitlist</a>
         </div>
     </div>
 </body>
