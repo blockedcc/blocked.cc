@@ -51,7 +51,7 @@
         const light = new THREE.PointLight(0xffffff);
         light.position.set(-100, 100, 30);
         camera.add(light);
-        scene.add(camera)
+        scene.add(camera);
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.target.set(0, 0, 0);
@@ -85,12 +85,26 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         };
 
-
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
             renderer.render(scene, camera);
         }
+
+        const secretTexts = [
+            'Congratulations on finishing all the content on this landing page! Now sit back and enjoy the credits. And don\'t forget to wait a few years for the next Easter egg.',
+            'Debugging is like being a detective in a crime movie where you are also the murderer.',
+            'Why was the JavaScript developer sad? Because he didn\'t know how to \'null\' his feelings.',
+            'Why do programmers hate nature? Because it has too many bugs.',
+            'Why do developers prefer dark mode? Light attracts bugs.'
+        ];
+        const text = secretTexts[Math.floor(Math.random() * secretTexts.length)];;
+
+        const mainFormat = 'color: #f9690e; font-size: 3em';
+        const additionalText = 'Text me if you are seeking a job. https://t.me/dcversus';
+    
+        console.log(`%c${text}`, mainFormat);
+        console.log(additionalText);
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,8 +139,8 @@
             left: 100px;
             top: 20px;
             z-index: 2;
-            animation: fadeInText 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-	        animation-delay: 0.3s;
+            animation: fadeInText 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+	        animation-delay: .5s;
         }
 
         #container {
@@ -156,8 +170,8 @@
         .contentWrapper h1 {
             margin: 0;
             padding-bottom: 50px;
-            animation: fadeInText 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-            animation-delay: .5s;
+            animation: fadeInText 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: 1s;
         }
 
         .links {
@@ -171,8 +185,8 @@
             border-radius: 8px;
             display: inline-block;
             transition: .5s;
-            animation: fadeInButton 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-            animation-delay: 1s;
+            animation: fadeInButton .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: 1.5s;
         }
 
         .links a:hover {
@@ -182,7 +196,6 @@
         .links a.primary {
             color: #000;
             background-color: #fff;
-            animation-delay: .5s;
         }
 
         @keyframes fadeIn {
@@ -233,7 +246,8 @@
 
             .contentWrapper {
                 width: 100vw;
-                padding: 96px 24px 200px;
+                padding: 96px 24px 0;
+                height: auto;
             }
 
             .contentWrapper h1 {
